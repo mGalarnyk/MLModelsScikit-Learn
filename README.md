@@ -39,7 +39,7 @@ This talk was for a ODSC West Session on October 27, 2025.
   <tr>
     <td>6</td>
     <td>Decision trees for classification</td>
-    <td><a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb">How_to_Visualize_Decision_Trees.ipynb</a></td>
+    <td><a href="./notebooks/Decision_Trees.ipynb">Decision_Trees.ipynb</a></td>
   </tr>
   <tr>
     <td>8</td>
