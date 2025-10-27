@@ -55,7 +55,7 @@ This talk was for a ODSC West Session on October 27, 2025.
     <td>10</td>
     <td>Logistic Regression using Python</td>
     <td><a href="./notebooks/Logistic_Regression.ipynb">Logistic_Regression.ipynb</a>,
-    <a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Logistic_Regression_for_Multiclass.ipynb</a></td>,
+    <a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Logistic_Regression_for_Multiclass.ipynb</a>,
     <a href="https://medium.com/@GalarnykMichael/how-to-speed-up-scikit-learn-model-training-aaf17e2d1e1">How to Speed up Scikit-Learn Model Training</a></td>
   </tr>  
   <tr>
