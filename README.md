@@ -23,7 +23,7 @@ This talk was for a ODSC West Session on October 27, 2025.
   </tr>
   <tr>
     <td>3</td>
-    <td>How to format data for scikit-learn>Setup</a></td>
+    <td>How to format data for scikit-learn</a></td>
     <td><a href="./notebooks/How_to_Format_Data.ipynb">How_to_Format_Data.ipynb</a></td>
   </tr>    
   <tr>
@@ -49,13 +49,13 @@ This talk was for a ODSC West Session on October 27, 2025.
   <tr>
     <td>9</td>
     <td>Random Forests using Python</td>
-    <td><a href="./notebooks/RandomForestUsingPython">RandomForestUsingPython.ipynb</a></td>
+    <td><a href="./notebooks/RandomForestUsingPython.ipynb">RandomForestUsingPython.ipynb</a></td>
   </tr>
   <tr>
     <td>10</td>
     <td>Logistic Regression using Python</td>
     <td><a href="./notebooks/Logistic_Regression.ipynb">Logistic_Regression.ipynb</a>,
-    <a href="./notebooks/Logistic_Regression_for_Multiclass">Logistic_Regression_for_Multiclass.ipynb</a></td>
+    <a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Logistic_Regression_for_Multiclass.ipynb</a></td>
   </tr>  
   <tr>
     <td>11</td>
