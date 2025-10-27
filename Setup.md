@@ -22,7 +22,7 @@ Before you can do machine learning, you need to be able to program with python. 
     <td>Easier to work with larger datasets than a free version of colab.</br> Easier to save your work and load data than Colab.</td>
     <td>Usually more effort to get running than Colab. Helps to have some knowledge of command line (Windows) or terminal (Mac). Harder to share and collaborate than Colab. Installation varies depending on your operating system (Windows, Mac) and a variety of other factors.</td>
     <td></td>
-    <td><a href="https://medium.com/@GalarnykMichael/install-python-anaconda-on-windows-2020-f8e188f9a63d">Windows</a> | <a href="https://www.datacamp.com/community/tutorials/installing-anaconda-mac-os-x">Mac</a> </td>    
+    <td><a href="https://medium.com/@GalarnykMichael/install-python-anaconda-on-windows-2020-f8e188f9a63d">Windows</a> | <a href="https://www.anaconda.com/docs/getting-started/anaconda/install">Mac</a> </td>    
   </tr>
   <tr>
     <td>2</td>
