@@ -69,6 +69,14 @@ This talk was for a ODSC West Session on October 27, 2025.
 
 These resources were shared during audience Q&A.
 
+### Machine Learning
+- [Understanding Sampling With and Without Replacement (Python)](https://towardsdatascience.com/understanding-sampling-with-and-without-replacement-python-7aff8f47ebe4/)  
+  Explains random sampling principles using clear Python examples.
+- [Understanding Random Forest using Python (scikit-learn)](https://youtu.be/R9tJeEgHyeo?si=xKVoLu5eb7v2CgcY)  
+  Video walkthrough of how ensemble tree models combine multiple learners.
+- [Understanding Decision Trees for Classification (Python)](https://medium.com/data-science/understanding-decision-trees-for-classification-python-9663d683c952)  
+  Step-by-step explanation of decision tree construction, splitting, and interpretation.
+
 ### Curriculum Learning
 - [On the Creation of Narrow AI: Hierarchy and Nonlocality of Neural Network Skills](https://arxiv.org/pdf/2505.15811)  
   Discusses how neural networks develop hierarchical skills and how this relates to curriculum learning and skill transfer.
