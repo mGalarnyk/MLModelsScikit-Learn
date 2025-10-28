@@ -64,3 +64,24 @@ This talk was for a ODSC West Session on October 27, 2025.
     <td><a href="./powerpoints/Conclusion.pdf">Conclusion.pdf</a></td>
   </tr>
 </tbody></table>
+
+## Relevant Links
+
+These resources were shared during audience Q&A.
+
+### Curriculum Learning
+- [On the Creation of Narrow AI: Hierarchy and Nonlocality of Neural Network Skills](https://arxiv.org/pdf/2505.15811)  
+  Discusses how neural networks develop hierarchical skills and how this relates to curriculum learning and skill transfer.
+
+### Model Deployment and Maintenance
+- [Considerations for Deploying Machine Learning Models in Production](https://medium.com/data-science/considerations-for-deploying-machine-learning-models-in-production-89d38d96cc23)  
+  Covers practical issues like reproducibility, model retraining, and monitoring.
+- [What is Data Drift in ML, and How to Detect and Handle It](https://medium.com/data-science/considerations-for-deploying-machine-learning-models-in-production-89d38d96cc23)  
+  Explains how changing data distributions can degrade model performance and what to do about it.
+
+### Reinforcement Learning
+- [An Introduction to Reinforcement Learning with OpenAI Gym, RLlib, and Google Colab](https://www.anyscale.com/blog/an-introduction-to-reinforcement-learning-with-openai-gym-rllib-and-google)  
+  Practical overview of RL concepts and tools with runnable examples.
+- [REFT: Reasoning with REinforced Fine-Tuning](https://arxiv.org/pdf/2401.08967)  
+  Paper exploring reinforcement learning methods for reasoning and model fine-tuning.
+
