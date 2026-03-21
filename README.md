@@ -53,6 +53,10 @@ This talk was for a ODSC West Session on October 27, 2025.
   </tr>
   <tr>
     <td>10</td>
+    <td>Does additional compute always help?</td>
+  </tr>
+  <tr>
+    <td>11</td>
     <td>Logistic Regression using Python</td>
     <td><a href="./notebooks/Logistic_Regression.ipynb">Logistic_Regression.ipynb</a>,
     <a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Logistic_Regression_for_Multiclass.ipynb</a>,
