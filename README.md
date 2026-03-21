@@ -53,7 +53,7 @@ This talk was for a ODSC West Session on October 27, 2025.
   </tr>
   <tr>
     <td>10</td>
-    <td>Does additional compute always help?</td>
+    <td>Does additional compute always help? (more RAM, cores, and GPUs)</td>
   </tr>
   <tr>
     <td>11</td>
