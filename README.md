@@ -54,6 +54,7 @@ This talk was for a ODSC West Session on April 27, 2026.
   <tr>
     <td>10</td>
     <td>Does additional compute always help? (more RAM, cores, and GPUs)</td>
+    <td><a href="./notebooks/Hyperparameter_Tuning.ipynb">Hyperparameter_Tuning.ipynb</a></td>
   </tr>
   <tr>
     <td>11</td>
