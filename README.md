@@ -1,6 +1,6 @@
 # Introduction to Machine Learning: From Theory to Application
 
-This talk was for a ODSC West Session on October 27, 2025.
+This talk was for a ODSC West Session on April 27, 2026.
 
 ## Agenda
 
