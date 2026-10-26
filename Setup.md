@@ -35,3 +35,7 @@ Before you can do machine learning, you need to be able to program with python. 
   </tr>
 
 </tbody></table>
+
+To install the workshop packages (including Flyte 2 and marimo) with uv or conda, follow the [Installation](./README.md#installation) steps in the README. On Colab, run `!pip install flyte pyarrow` in a cell. Everything else is already installed.
+
+Docker is not included and must be installed separately, but only for the [optional cluster runs](./README.md#optional-run-flyte-on-a-local-cluster).

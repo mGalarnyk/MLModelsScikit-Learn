@@ -1,0 +1,19 @@
+# Docker is not a Python package. Install Docker Desktop separately, and only for the optional Flyte cluster runs (see README).
+name: sklearn-workshop
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy>=1.26
+  - pandas>=2.1
+  - matplotlib>=3.8
+  - seaborn>=0.13
+  - scikit-learn>=1.4
+  - jupyterlab>=4.0
+  - pyarrow>=15
+  - pip
+  - pip:
+      # Flyte 2 (Hyperparameter_Tuning.ipynb)
+      - flyte>=2.12
+      # marimo (Flyte_Pipeline_with_marimo.py)
+      - marimo>=0.25

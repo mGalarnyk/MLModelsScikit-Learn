@@ -172,3 +172,12 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Flyte devbox client config (flyte create config --devbox)
+notebooks/config.yaml
+
+# Real dataset, downloaded by the notebooks (150 MB, too big for GitHub)
+notebooks/data/creditcard.csv
+
+# marimo session cache
+__marimo__/
