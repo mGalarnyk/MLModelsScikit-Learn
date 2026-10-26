@@ -6,6 +6,7 @@ app = marimo.App(width="medium")
 with app.setup:
     import inspect
     import json
+    import re
     import time
     from urllib.request import urlretrieve
 
@@ -18,13 +19,15 @@ with app.setup:
     import flyte
     import fraud_pipeline as fp
 
-    # Flyte's local run records: which tasks ran, which came from the cache, and how long each took.
+    # Flyte's local run records: which tasks ran, which came from the cache, retries, and how long each took.
     from flyte._persistence._run_store import RunStore
+
+    FLYTE_LOGO = "https://raw.githubusercontent.com/flyteorg/static-resources/main/common/flyte_circle_gradient_1_4x4.png"
 
 
 @app.function(hide_code=True)
 def task_statuses(actions):
-    """Turn Flyte's run records into {task: ("ran" or "cached", seconds)}. Model tasks are keyed by (model, params)."""
+    """Turn Flyte's run records into {task: ("ran" or "cached", seconds, failed attempts)}. Model tasks are keyed by (model, params)."""
     statuses = {}
     for a in actions:
         task = a.task_name.split(".")[-1]
@@ -33,29 +36,40 @@ def task_statuses(actions):
         if task == "evaluate_model":
             inputs = json.loads(a.inputs)
             task = (inputs["model_name"], json.dumps(inputs["params"], sort_keys=True))
-        statuses[task] = ("cached" if a.cache_hit else "ran", a.end_time - a.start_time)
+        # Each failed attempt Flyte retried, as the error type it recorded (for example ConnectionError)
+        failures = [re.search(r'code: "(\w+)"', at["error"] or "") for at in json.loads(a.attempts_json or "[]")
+                    if at.get("status") == "failed"]
+        failures = [m.group(1) if m else "error" for m in failures]
+        statuses[task] = ("cached" if a.cache_hit else "ran", a.end_time - a.start_time, failures)
     return statuses
 
 
 @app.function(hide_code=True)
 def pipeline_mermaid(n_rows, fraud_rate, experiments, results, best, statuses):
-    """Draw one Flyte run as a Mermaid flowchart. Tasks that ran are green with animated edges; reused tasks are gray."""
+    """Draw one Flyte run as a Mermaid flowchart. Tasks that ran are green with animated edges, reused tasks are gray,
+    and each failed attempt that Flyte retried gets an orange arrow ending in ✗."""
     short = {"Logistic Regression": "Logistic Regression", "Random Forest": "Random Forest",
              "Gradient-Boosted Trees": "Gradient-Boosted Trees"}
     scores = {(r["model"], json.dumps(r["params"], sort_keys=True)): r["PR-AUC"] for r in results}
 
-    def status(key):
-        state, seconds = statuses.get(key, ("unknown", 0))
-        label = {"ran": f"✓ ran in {seconds:.1f}s", "cached": "↻ reused from cache", "unknown": ""}[state]
+    retried = []
+
+    def status(key, node_id):
+        state, seconds, failures = statuses.get(key, ("unknown", 0, []))
+        label = {"ran": f"✓ ran in {seconds:.1f}s", "cached": "⚡ reused from cache", "unknown": ""}[state]
+        if failures:
+            retried.append((node_id, failures))
+            label += f"<br/>retried after {failures[0]}"
         return state, label
 
     lines = ['%%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 18, "rankSpacing": 55}}}%%', "flowchart LR",
              f'    data[("<b>Transactions</b><br/>{n_rows:,} rows · {fraud_rate:.2%} fraud")]:::data']
+    tag = "<small>FLYTE TASK</small><br/>"
     edges, classes = [], []
 
     def task_node(node_id, title, key):
-        state, label = status(key)
-        lines.append(f'    {node_id}("<b>{title}</b><br/><small>{label}</small>")')
+        state, label = status(key, node_id)
+        lines.append(f'    {node_id}("{tag}<b>{title}</b><br/><small>{label}</small>")')
         classes.append(f"    class {node_id} {state}")
         return state
 
@@ -63,7 +77,7 @@ def pipeline_mermaid(n_rows, fraud_rate, experiments, results, best, statuses):
     sp = task_node("sp", "split_data", "split_data")
     edges += [("data", "fe", fe), ("fe", "sp", sp)]
 
-    lines.append(f'    subgraph compare["Compare models in parallel · {sum(len(p) for p in experiments.values())} Flyte tasks"]')
+    lines.append(f'    subgraph compare["Flyte runs {sum(len(p) for p in experiments.values())} model tasks in parallel"]')
     model_ids = []
     best_key = (best["model"], json.dumps(best["params"], sort_keys=True))
     for family, param_list in experiments.items():
@@ -71,8 +85,8 @@ def pipeline_mermaid(n_rows, fraud_rate, experiments, results, best, statuses):
             key = (family, json.dumps(params, sort_keys=True))
             node_id = f"m{len(model_ids)}"
             label = ", ".join(f"{k}={v}" for k, v in params.items() if k != "min_samples_leaf")
-            state, status_label = status(key)
-            lines.append(f'    {node_id}("<b>{short[family]}</b><br/>{label}<br/>PR-AUC <b>{scores[key]:.3f}</b><br/><small>{status_label}</small>")')
+            state, status_label = status(key, node_id)
+            lines.append(f'    {node_id}("{tag}<b>{short[family]}</b><br/>{label}<br/>PR-AUC <b>{scores[key]:.3f}</b><br/><small>{status_label}</small>")')
             classes.append(f"    class {node_id} {state}")
             if key == best_key:
                 classes.append(f"    class {node_id} best")
@@ -81,7 +95,7 @@ def pipeline_mermaid(n_rows, fraud_rate, experiments, results, best, statuses):
     lines.append("    end")
 
     sb = task_node("sb", f"score_best_model", "score_best_model")
-    lines[-1] = lines[-1].replace("<br/><small>", f"<br/>Winner: {best['model']}<br/><small>")
+    lines[-1] = lines[-1].replace("</b><br/><small>", f"</b><br/>Winner: {best['model']}<br/><small>")
     edges += [(m, "sb", sb) for m in model_ids]
     lines.append('    decide[/"<b>Decide in marimo</b><br/>threshold · cost · capacity"/]:::marimo')
     edges.append(("sb", "decide", "ran"))
@@ -90,6 +104,14 @@ def pipeline_mermaid(n_rows, fraud_rate, experiments, results, best, statuses):
         lines.append(f"    {a} e{i}@--> {b}")
         if state == "ran":
             lines.append(f"    e{i}@{{ animate: true }}")
+    # Each failed attempt Flyte retried: an orange arrow into the task that ends in ✗, next to the arrow that succeeded
+    n_links = len(edges)
+    for node_id, failures in retried:
+        source = next(a for a, b, _ in edges if b == node_id)
+        for attempt, error in enumerate(failures, start=1):
+            lines.append(f'    {source} -. "✗ attempt {attempt} · {error}" .-x {node_id}')
+            lines.append(f"    linkStyle {n_links} stroke:#ea580c,stroke-width:3px,color:#9a3412")
+            n_links += 1
     lines += classes
     lines += ["    classDef data fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a8a",
               "    classDef ran fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d",
@@ -122,11 +144,14 @@ def _():
     {models}
 
     {where}
+
+    {lose_worker}
     """).batch(
         models=mo.ui.multiselect(options=list(fp.EXPERIMENTS), value=["Logistic Regression", "Random Forest"],
                                  label="Models to compare"),
         where=mo.ui.radio(options=["Locally (no Docker needed)", "Flyte devbox (needs Docker)"],
                           value="Locally (no Docker needed)", label="Where to run", inline=True),
+        lose_worker=mo.ui.checkbox(value=True, label="Simulate losing a worker: the last model task fails its first attempt, and Flyte retries it"),
     ).form(submit_button_label="Run pipeline with Flyte")
 
     get_history, set_history = mo.state([])
@@ -143,7 +168,8 @@ def _():
 
 @app.cell(hide_code=True)
 def _(run_form, set_history):
-    settings = run_form.value or {"models": ["Logistic Regression", "Random Forest"], "where": "Locally (no Docker needed)"}
+    settings = run_form.value or {"models": ["Logistic Regression", "Random Forest"], "where": "Locally (no Docker needed)",
+                                  "lose_worker": True}
     on_devbox = settings["where"].startswith("Flyte devbox")
     config_path = mo.notebook_dir() / "config.yaml"
 
@@ -167,14 +193,15 @@ def _(run_form, set_history):
     _start = time.time()
     with mo.status.spinner(title=f"Running {_n_tasks} model tasks {'on the devbox' if on_devbox else 'locally'}..."):
         if on_devbox:
-            run = flyte.run(fp.fraud_pipeline, raw=raw, model_names=settings["models"])
+            run = flyte.run(fp.fraud_pipeline, raw=raw, model_names=settings["models"], lose_worker=settings["lose_worker"])
             run.wait()
             # Read back only the output. run.outputs() would also download the inputs from the cluster's storage.
             output = run.typed_outputs({"o0": dict})["o0"]
             statuses = {}
         else:
             _name = f"fraud-{int(time.time() * 1000)}"
-            run = flyte.with_runcontext(name=_name).run(fp.fraud_pipeline, raw=raw, model_names=settings["models"])
+            run = flyte.with_runcontext(name=_name).run(fp.fraud_pipeline, raw=raw, model_names=settings["models"],
+                                                        lose_worker=settings["lose_worker"])
             output = run.outputs()[0]
             statuses = task_statuses(RunStore.list_actions_for_run_sync(_name))
     run_seconds = time.time() - _start
@@ -182,7 +209,7 @@ def _(run_form, set_history):
 
     _diagram = pipeline_mermaid(len(raw), raw["Class"].mean(), experiments,
                                 output["results"], output["best"], statuses)
-    _reused = sum(state == "cached" for state, _ in statuses.values())
+    _reused = sum(state == "cached" for state, _, _ in statuses.values())
     set_history(lambda h: h + [{"run": len(h) + 1, "diagram": _diagram, "seconds": run_seconds,
                                 "reused": _reused, "total": len(statuses), "where": ran_where}])
     return experiments, output, ran_where, raw, run, run_seconds, statuses
@@ -207,8 +234,11 @@ def _(get_history, output, ran_where, raw, run, run_seconds, statuses):
     _link = f" Follow the run in the [Flyte UI]({run.url})." if ran_where != "locally" else ""
 
     mo.vstack([
-        mo.md(f"## The Pipeline, Live\nEach box is a Flyte task, drawn from the run that just finished.{_link} "
+        mo.hstack([mo.image(FLYTE_LOGO, width=44, alt="Flyte logo"), mo.md("## The Flyte Pipeline, Live")],
+                  justify="start", align="center", gap=0.75),
+        mo.md(f"Each box is a Flyte task, drawn from the run that just finished.{_link} "
               "**Green** tasks ran (their arrows move), **gray dashed** tasks were reused from Flyte's cache, "
+              "an **orange ✗ arrow** is an attempt that failed and Flyte retried, "
               "and the **gold** box is the best model. Earlier runs stay in their own tabs."),
         _stats,
         _tabs,
@@ -220,8 +250,9 @@ def _(get_history, output, ran_where, raw, run, run_seconds, statuses):
 def _():
     _tasks = [fp.engineer_features, fp.split_data, fp.evaluate_model, fp.score_best_model, fp.fraud_pipeline]
     mo.vstack([
-        mo.md("""## The Tasks
-    A task is an ordinary Python function with an `@env.task` decorator. The `TaskEnvironment` says which packages and resources each task gets on a cluster (locally these settings are ignored). Open a task to read its code."""),
+        mo.hstack([mo.image(FLYTE_LOGO, width=44, alt="Flyte logo"), mo.md("## Flyte Tasks")],
+                  justify="start", align="center", gap=0.75),
+        mo.md("""A Flyte task is an ordinary Python function with an `@env.task` decorator. Options on the decorator add Flyte features: `cache` reuses results when the inputs haven't changed, and `retries` reruns a task that fails. The `TaskEnvironment` says which packages and resources each task gets on a cluster (locally these settings are ignored). Open a task to read its code."""),
         mo.accordion({f"`{t.func.__name__}`": mo.ui.code_editor(inspect.getsource(t.func), language="python", disabled=True)
                       for t in _tasks}),
     ])
@@ -320,6 +351,7 @@ def _():
     ## Why Flyte and marimo Together
 
     * **Same code, laptop or cluster.** `fraud_pipeline.py` is plain Python. `flyte.init()` runs it locally, and `flyte.init_from_config()` runs each task in its own container on a cluster, with inputs, outputs, and logs recorded for every task.
+    * **Failures don't restart the pipeline.** A task that loses its worker is retried on its own (`retries=2`), and every task that already finished stays cached.
     * **Expensive work once, decisions instantly.** Flyte runs the model comparison. marimo reruns only the cells that depend on a slider, so exploring thresholds and costs never retrains a model.
     * **Shareable.** The notebook is a `.py` file that diffs cleanly in git, and `marimo run Flyte_Pipeline_with_marimo.py` serves it as an app for stakeholders who just want the sliders and the table.
     """)

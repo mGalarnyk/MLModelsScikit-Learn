@@ -89,8 +89,9 @@ What we will cover:
   </tr>
   <tr>
     <td width="50%" valign="top">
+      <a href="./notebooks/Flyte_Pipeline_with_marimo.py"><img src="./notebooks/images/readme/flyte_pipeline_run2.png" width="420" alt="The fraud detection pipeline with Flyte 2 and marimo"></a><br>
       <b>11. <a href="./notebooks/Flyte_Pipeline_with_marimo.py">The fraud detection pipeline with Flyte 2 and marimo</a></b><br><sub><a href="#running-the-marimo-notebook">How to run it</a></sub>
-      <p>Puts the whole fraud workflow into one pipeline. When you change one step, only that step reruns.</p>
+      <p>The whole fraud workflow as Flyte tasks. Flyte reuses finished tasks from its cache, runs the model comparison in parallel, and retries a task that fails instead of restarting the pipeline.</p>
     </td>
   </tr>
 </table>
@@ -191,7 +192,14 @@ marimo edit Flyte_Pipeline_with_marimo.py   # notebook view, with code
 marimo run Flyte_Pipeline_with_marimo.py    # app view, code hidden
 ```
 
-A browser tab opens. Choose the models, leave "Local" selected, and click "Run pipeline with Flyte". The first run takes about a minute. Then add Gradient-Boosted Trees and run again: the pipeline diagram shows which Flyte tasks were reused from the cache and which ran. To start fresh, delete the cache with `rm -rf ~/.flyte/local-cache`.
+A browser tab opens, and the pipeline runs once with Logistic Regression and Random Forest (about 30 seconds). Then add Gradient-Boosted Trees and click "Run pipeline with Flyte" again. The diagram is drawn from Flyte's own run records:
+
+* **Gray dashed** tasks were reused from Flyte's cache, so only the new model tasks run.
+* An **orange ✗ arrow** is a failed attempt that Flyte retried. The "Simulate losing a worker" box makes the last model task fail its first attempt, like a cloud machine being reclaimed, so you can watch the retry. The retry itself is real Flyte behavior (`retries=2` on the task).
+
+![The second run in the marimo app: cached Flyte tasks are gray, the two new Gradient-Boosted Trees tasks ran, and one was retried after a failed attempt](notebooks/images/flyte_pipeline_run2.png)
+
+To start fresh, delete the cache with `rm -rf ~/.flyte/local-cache`.
 
 ### Optional: Run Flyte on a Local Cluster
 

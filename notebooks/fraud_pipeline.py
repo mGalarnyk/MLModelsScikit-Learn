@@ -6,6 +6,8 @@ the steps locally with flyte.init() (no Docker needed) or on a cluster with
 flyte.init_from_config(), without changing this file.
 """
 import asyncio
+import tempfile
+from pathlib import Path
 from typing import Annotated
 
 import numpy as np
@@ -65,9 +67,23 @@ def split_data(df: HashedDataFrame) -> tuple[HashedDataFrame, HashedDataFrame, H
     return train, val, test
 
 
-@env.task
-def evaluate_model(train: HashedDataFrame, model_name: str, params: dict) -> dict:
+def first_attempt() -> bool:
+    """True on a task's first attempt. Clusters number attempts; local runs don't, so a marker file stands in."""
+    ctx = flyte.ctx()
+    marker = Path(tempfile.gettempdir()) / f'flyte-attempt-{ctx.action.run_name}-{ctx.action.name}'
+    if ctx.attempt_number > 0 or marker.exists():
+        return False
+    marker.touch()
+    return True
+
+
+# retries=2: if a worker fails (for example, a spot instance is reclaimed), Flyte runs the task again.
+# lose_worker only simulates that failure, so it is left out of the cache key.
+@env.task(cache=flyte.Cache(behavior='auto', ignored_inputs=('lose_worker',)), retries=2)
+def evaluate_model(train: HashedDataFrame, model_name: str, params: dict, lose_worker: bool = False) -> dict:
     """Cross-validate one model and one set of hyperparameters on the training set."""
+    if lose_worker and first_attempt():
+        raise ConnectionError('Lost the worker running this task (simulated)')
     cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=0)
     scores = cross_validate(make_model(model_name, params), train[FEATURES], train['Class'],
                             cv=cv, scoring=['roc_auc', 'average_precision'])
@@ -92,14 +108,18 @@ def score_best_model(train: HashedDataFrame, val: HashedDataFrame, test: HashedD
 
 # The parent task is not cached, so every run shows which child tasks were reused.
 @env.task(cache='disable')
-async def fraud_pipeline(raw: HashedDataFrame, model_names: list[str]) -> dict:
-    """The whole workflow. The model comparison runs as parallel tasks."""
+async def fraud_pipeline(raw: HashedDataFrame, model_names: list[str], lose_worker: bool = False) -> dict:
+    """The whole workflow. The model comparison runs as parallel tasks.
+
+    With lose_worker=True, the last model task loses its worker on the first attempt and Flyte retries it.
+    """
     df = await engineer_features.aio(raw)
     train, val, test = await split_data.aio(df)
 
     experiments = [(name, params) for name in model_names for params in EXPERIMENTS[name]]
-    results = await asyncio.gather(*[evaluate_model.aio(train, name, params)
-                                     for name, params in experiments])
+    results = await asyncio.gather(*[evaluate_model.aio(train, name, params,
+                                                        lose_worker=lose_worker and i == len(experiments) - 1)
+                                     for i, (name, params) in enumerate(experiments)])
 
     best = max(results, key=lambda r: r['PR-AUC'])
     scores = await score_best_model.aio(train, val, test, best['model'], best['params'])
