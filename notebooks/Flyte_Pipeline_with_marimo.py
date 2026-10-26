@@ -130,8 +130,8 @@ def _():
 
     In `Anomaly_Detection_Evaluation.ipynb` and `Turning_Scores_into_Decisions.ipynb` we built a fraud detection workflow one cell at a time. Here the same workflow is a **pipeline**:
 
-    * [**Flyte 2**](https://www.union.ai/docs/v2/flyte/) runs the expensive steps (feature engineering, comparing models, scoring) as tasks. The tasks live in a plain Python file, `fraud_pipeline.py`, and run on your laptop or on a cluster without changes.
-    * [**marimo**](https://marimo.io/) is the interactive front end. marimo notebooks are **reactive**: when you change a control, every cell that depends on it reruns automatically. This notebook is itself a Python file, so it works well with git and can be served as an app with `marimo run`.
+    * [**Flyte 2**](https://github.com/flyteorg/flyte) runs the expensive steps (feature engineering, comparing models, scoring) as tasks. The tasks live in a plain Python file, `fraud_pipeline.py`, and run on your laptop or on a cluster without changes.
+    * [**marimo**](https://github.com/marimo-team/marimo) is the interactive front end. marimo notebooks are **reactive**: when you change a control, every cell that depends on it reruns automatically. This notebook is itself a Python file, so it works well with git and can be served as an app with `marimo run`.
 
     Launch it from the `notebooks` folder with `marimo edit Flyte_Pipeline_with_marimo.py`.
     """)

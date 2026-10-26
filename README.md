@@ -8,7 +8,7 @@ Machine learning is most useful when it helps practitioners move from data to be
 
 Rather than focusing only on algorithm definitions, this session emphasizes the choices practitioners make when building real machine learning systems. We will cover core supervised learning concepts, feature engineering, model selection, validation strategy, and common failure modes such as target leakage, overfitting, misleading accuracy, and poorly chosen thresholds. Anomaly detection will be used as a recurring application to illustrate challenges such as limited labels, rare events, and false-positive versus false-negative tradeoffs.
 
-Python demonstrations will use common open-source tools such as Pandas, NumPy, Matplotlib, and scikit-learn in Jupyter notebooks, with marimo, a reactive Python notebook, for select demos. The workshop will cover practical model evaluation with confusion matrices, precision, recall, F1, ROC-AUC, and PR-AUC, with attention to how metric choice depends on the cost of different errors. We will also use Flyte 2, an open-source orchestration framework, to run a scikit-learn hyperparameter search as parallel tasks that scale from a laptop to a cluster, and to turn the fraud detection workflow into a pipeline in marimo that reruns only the steps that changed.
+Python demonstrations will use common open-source tools such as Pandas, NumPy, Matplotlib, and scikit-learn in Jupyter notebooks, with [marimo](https://github.com/marimo-team/marimo), a reactive Python notebook, for select demos. The workshop will cover practical model evaluation with confusion matrices, precision, recall, F1, ROC-AUC, and PR-AUC, with attention to how metric choice depends on the cost of different errors. We will also use [Flyte 2](https://github.com/flyteorg/flyte), an open-source orchestration framework, to run a scikit-learn hyperparameter search as parallel tasks that scale from a laptop to a cluster, and to turn the fraud detection workflow into a pipeline in marimo that reruns only the steps that changed.
 
 By the end of the session, attendees will understand how to frame applied machine learning problems, prepare features for tabular models, compare model families, evaluate models beyond accuracy, scale model training with Flyte 2, and communicate model results in a way that supports real-world decisions.
 
@@ -22,7 +22,7 @@ What we will cover:
 * **Core models:** linear regression, decision trees, random forests, and logistic regression, and how each one makes predictions.
 * **Evaluating beyond accuracy:** rare events, leakage, precision, recall, ROC-AUC, and PR-AUC, using credit card fraud as the running example.
 * **From scores to decisions:** thresholds, costs, review capacity, and calibration.
-* **Scaling up:** hyperparameter search with more cores and Flyte 2, and a fraud pipeline in marimo that reruns only what changed.
+* **Scaling up:** hyperparameter search with more cores and [Flyte 2](https://github.com/flyteorg/flyte), and a fraud pipeline in [marimo](https://github.com/marimo-team/marimo) that reruns only what changed.
 
 <p><b>0. <a href="#installation">Setup</a>:</b> install Python and the workshop packages, including Flyte 2 and marimo, so everyone can run the same code.</p>
 
@@ -98,7 +98,7 @@ What we will cover:
 
 ## Installation
 
-The packages (scikit-learn, Jupyter, Flyte 2, marimo, and the rest) are listed in `requirements.txt` for uv and in `environment.yml` for conda. Use either option below. Docker is not needed for the notebooks. It is only used for the [optional cluster runs](#optional-run-flyte-on-a-local-cluster) and is installed separately.
+The packages (scikit-learn, Jupyter, [Flyte 2](https://github.com/flyteorg/flyte), [marimo](https://github.com/marimo-team/marimo), and the rest) are listed in `requirements.txt` for uv and in `environment.yml` for conda. Use either option below. Docker is not needed for the notebooks. It is only used for the [optional cluster runs](#optional-run-flyte-on-a-local-cluster) and is installed separately.
 
 ### Option 1: uv (recommended)
 
