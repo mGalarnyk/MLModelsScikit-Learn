@@ -24,86 +24,76 @@ What we will cover:
 * **From scores to decisions:** thresholds, costs, review capacity, and calibration.
 * **Scaling up:** hyperparameter search with more cores and Flyte 2, and a fraud pipeline in marimo that reruns only what changed.
 
+<p><b>0. <a href="#installation">Setup</a>:</b> install Python and the workshop packages, including Flyte 2 and marimo, so everyone can run the same code.</p>
+
 <table>
-  <tbody><tr>
-    <th></th>
-    <th>Topic</th>
-    <th>Why we cover it</th>
-    <th></th>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="./notebooks/How_to_Format_Data.ipynb"><img src="./notebooks/images/featuresMatrixTargetVector.png" width="420" alt="How to format data for scikit-learn"></a><br>
+      <b>1. <a href="./notebooks/How_to_Format_Data.ipynb">How to format data for scikit-learn</a></b>
+      <p>Every scikit-learn model expects a features matrix and a target vector. Getting this right first avoids most beginner errors.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/Linear_Regression.ipynb"><img src="./notebooks/images/linearregression.png" width="420" alt="Linear regression"></a><br>
+      <b>2. <a href="./notebooks/Linear_Regression.ipynb">Linear regression</a></b>
+      <p>The simplest model. It introduces the fit-and-predict pattern that every later model uses.</p>
+    </td>
   </tr>
   <tr>
-    <td>1</td>
-    <td><a href="#installation"><b>Setup</b></a></td>
-    <td>So everyone can run the same code during the session. Install Python and the workshop packages, including Flyte 2 and marimo.</td>
-    <td></td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/TrainTestSplitScikitLearn.ipynb"><img src="./notebooks/images/TrainTestProcedure.png" width="420" alt="Train test split"></a><br>
+      <b>3. <a href="./notebooks/TrainTestSplitScikitLearn.ipynb">Train test split</a></b>
+      <p>A model is only useful if it works on data it hasn't seen. This is how you check, and it shows overfitting and the bias-variance tradeoff.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/Decision_Trees.ipynb"><img src="./notebooks/images/decisionTreeExample.png" width="420" alt="Decision trees for classification"></a><br>
+      <b>4. <a href="./notebooks/Decision_Trees.ipynb">Decision trees for classification</a></b>
+      <p>An interpretable classifier. Tuning <code>max_depth</code> shows how model complexity changes results.</p>
+    </td>
   </tr>
   <tr>
-    <td>2</td>
-    <td><a href="./notebooks/How_to_Format_Data.ipynb"><b>How to format data for scikit-learn</b></a></td>
-    <td>Every scikit-learn model expects a features matrix and a target vector. Getting this right first avoids most beginner errors.</td>
-    <td><a href="./notebooks/How_to_Format_Data.ipynb"><img src="./notebooks/images/featuresMatrixTargetVector.png" width="220" alt="How to format data for scikit-learn"></a></td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb"><img src="./notebooks/images/plottreefncn.png" width="420" alt="Visualize decision trees"></a><br>
+      <b>5. <a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb">Visualize decision trees</a></b>
+      <p>Seeing the splits lets you check what the model learned and explain it to stakeholders.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/RandomForestUsingPython.ipynb"><img src="./notebooks/images/Bagging.png" width="420" alt="Random forests"></a><br>
+      <b>6. <a href="./notebooks/RandomForestUsingPython.ipynb">Random forests</a></b>
+      <p>Many trees together usually beat one tree on tabular data. Also covers feature importance and grid search.</p>
+    </td>
   </tr>
   <tr>
-    <td>3</td>
-    <td><a href="./notebooks/Linear_Regression.ipynb"><b>Linear regression</b></a></td>
-    <td>The simplest model. It introduces the fit-and-predict pattern that every later model uses.</td>
-    <td><a href="./notebooks/Linear_Regression.ipynb"><img src="./notebooks/images/linearregression.png" width="220" alt="Linear regression"></a></td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/Logistic_Regression.ipynb"><img src="./notebooks/images/logistic_regression_predictions.png" width="420" alt="Logistic regression"></a><br>
+      <b>7. <a href="./notebooks/Logistic_Regression.ipynb">Logistic regression</a></b><br><sub><a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Multiclass</a> · <a href="https://medium.com/@GalarnykMichael/how-to-speed-up-scikit-learn-model-training-aaf17e2d1e1">Speeding up training</a></sub>
+      <p>A classifier that outputs probabilities, which the fraud notebooks later turn into decisions. The multiclass notebook handles more than two classes.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/Anomaly_Detection_Evaluation.ipynb"><img src="./notebooks/images/fraud_confusion_matrix.png" width="420" alt="Anomaly detection: evaluating models beyond accuracy"></a><br>
+      <b>8. <a href="./notebooks/Anomaly_Detection_Evaluation.ipynb">Anomaly detection: evaluating models beyond accuracy</a></b><br><sub>Downloads the <a href="#dataset">dataset</a> on first run</sub>
+      <p>Fraud is rare, so a model that never flags anything is 99.8% accurate. Covers leakage, comparing model families, and metrics like PR-AUC that show real differences.</p>
+    </td>
   </tr>
   <tr>
-    <td>4</td>
-    <td><a href="./notebooks/TrainTestSplitScikitLearn.ipynb"><b>Train test split</b></a></td>
-    <td>A model is only useful if it works on data it hasn't seen. This is how you check, and it shows overfitting and the bias-variance tradeoff.</td>
-    <td><a href="./notebooks/TrainTestSplitScikitLearn.ipynb"><img src="./notebooks/images/TrainTestProcedure.png" width="220" alt="Train test split"></a></td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/Turning_Scores_into_Decisions.ipynb"><img src="./notebooks/images/cost_vs_threshold.png" width="420" alt="Turning model scores into decisions"></a><br>
+      <b>9. <a href="./notebooks/Turning_Scores_into_Decisions.ipynb">Turning model scores into decisions</a></b>
+      <p>A model gives a score, but the business needs an action. Covers choosing a threshold from costs, review capacity, and calibration.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="./notebooks/Hyperparameter_Tuning.ipynb"><img src="./notebooks/images/hyperparameter_timing_full_dataset.png" width="420" alt="Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2"></a><br>
+      <b>10. <a href="./notebooks/Hyperparameter_Tuning.ipynb">Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2</a></b><br><sub><a href="#optional-run-flyte-on-a-local-cluster">Optional cluster run</a></sub>
+      <p>Tuning is where most compute time goes. On the full fraud dataset, a grid search drops from about 30 minutes on one core to under 3 minutes on 16.</p>
+    </td>
   </tr>
   <tr>
-    <td>5</td>
-    <td><a href="./notebooks/Decision_Trees.ipynb"><b>Decision trees for classification</b></a></td>
-    <td>An interpretable classifier. Tuning <code>max_depth</code> shows how model complexity changes results.</td>
-    <td><a href="./notebooks/Decision_Trees.ipynb"><img src="./notebooks/images/decisionTreeExample.png" width="220" alt="Decision trees for classification"></a></td>
+    <td width="50%" valign="top">
+      <b>11. <a href="./notebooks/Flyte_Pipeline_with_marimo.py">The fraud detection pipeline with Flyte 2 and marimo</a></b><br><sub><a href="#running-the-marimo-notebook">How to run it</a></sub>
+      <p>Puts the whole fraud workflow into one pipeline. When you change one step, only that step reruns.</p>
+    </td>
   </tr>
-  <tr>
-    <td>6</td>
-    <td><a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb"><b>Visualize decision trees</b></a></td>
-    <td>Seeing the splits lets you check what the model learned and explain it to stakeholders.</td>
-    <td><a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb"><img src="./notebooks/images/plottreefncn.png" width="220" alt="Visualize decision trees"></a></td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td><a href="./notebooks/RandomForestUsingPython.ipynb"><b>Random forests</b></a></td>
-    <td>Many trees together usually beat one tree on tabular data. Also covers feature importance and grid search.</td>
-    <td><a href="./notebooks/RandomForestUsingPython.ipynb"><img src="./notebooks/images/Bagging.png" width="220" alt="Random forests"></a></td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td><a href="./notebooks/Logistic_Regression.ipynb"><b>Logistic regression</b></a><br><sub><a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Multiclass</a> · <a href="https://medium.com/@GalarnykMichael/how-to-speed-up-scikit-learn-model-training-aaf17e2d1e1">Speeding up training</a></sub></td>
-    <td>A classifier that outputs probabilities, which the fraud notebooks later turn into decisions. The multiclass notebook handles more than two classes.</td>
-    <td><a href="./notebooks/Logistic_Regression.ipynb"><img src="./notebooks/images/logistic_regression_predictions.png" width="220" alt="Logistic regression"></a></td>
-  </tr>
-  <tr>
-    <td>9</td>
-    <td><a href="./notebooks/Anomaly_Detection_Evaluation.ipynb"><b>Anomaly detection: evaluating models beyond accuracy</b></a><br><sub>Downloads the <a href="#dataset">dataset</a> on first run</sub></td>
-    <td>Fraud is rare, so a model that never flags anything is 99.8% accurate. Covers leakage, comparing model families, and metrics like PR-AUC that show real differences.</td>
-    <td><a href="./notebooks/Anomaly_Detection_Evaluation.ipynb"><img src="./notebooks/images/fraud_confusion_matrix.png" width="220" alt="Anomaly detection: evaluating models beyond accuracy"></a></td>
-  </tr>
-  <tr>
-    <td>10</td>
-    <td><a href="./notebooks/Turning_Scores_into_Decisions.ipynb"><b>Turning model scores into decisions</b></a></td>
-    <td>A model gives a score, but the business needs an action. Covers choosing a threshold from costs, review capacity, and calibration.</td>
-    <td><a href="./notebooks/Turning_Scores_into_Decisions.ipynb"><img src="./notebooks/images/cost_vs_threshold.png" width="220" alt="Turning model scores into decisions"></a></td>
-  </tr>
-  <tr>
-    <td>11</td>
-    <td><a href="./notebooks/Hyperparameter_Tuning.ipynb"><b>Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2</b></a><br><sub><a href="#optional-run-flyte-on-a-local-cluster">Optional cluster run</a></sub></td>
-    <td>Tuning is where most compute time goes. On the full fraud dataset, a grid search drops from about 30 minutes on one core to under 3 minutes on 16.</td>
-    <td><a href="./notebooks/Hyperparameter_Tuning.ipynb"><img src="./notebooks/images/hyperparameter_timing_full_dataset.png" width="220" alt="Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2"></a></td>
-  </tr>
-  <tr>
-    <td>12</td>
-    <td><a href="./notebooks/Flyte_Pipeline_with_marimo.py"><b>The fraud detection pipeline with Flyte 2 and marimo</b></a><br><sub><a href="#running-the-marimo-notebook">How to run it</a></sub></td>
-    <td>Puts the whole fraud workflow into one pipeline. When you change one step, only that step reruns.</td>
-    <td></td>
-  </tr>
-</tbody></table>
+</table>
 
 ## Installation
 
