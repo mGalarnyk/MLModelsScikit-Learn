@@ -126,12 +126,12 @@ def pipeline_mermaid(n_rows, fraud_rate, experiments, results, best, statuses):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # The Fraud Detection Pipeline with Flyte 2 and marimo
+    # The Fraud Detection Pipeline with [Flyte 2](https://github.com/flyteorg/flyte) and [marimo](https://github.com/marimo-team/marimo)
 
     In `Anomaly_Detection_Evaluation.ipynb` and `Turning_Scores_into_Decisions.ipynb` we built a fraud detection workflow one cell at a time. Here the same workflow is a **pipeline**:
 
     * [**Flyte 2**](https://github.com/flyteorg/flyte) runs the expensive steps (feature engineering, comparing models, scoring) as tasks. The tasks live in a plain Python file, `fraud_pipeline.py`, and run on your laptop or on a cluster without changes.
-    * [**marimo**](https://github.com/marimo-team/marimo) is the interactive front end. marimo notebooks are **reactive**: when you change a control, every cell that depends on it reruns automatically. This notebook is itself a Python file, so it works well with git and can be served as an app with `marimo run`.
+    * [**marimo**](https://github.com/marimo-team/marimo) is the interactive front end. [marimo](https://github.com/marimo-team/marimo) notebooks are **reactive**: when you change a control, every cell that depends on it reruns automatically. This notebook is itself a Python file, so it works well with git and can be served as an app with `marimo run`.
 
     Launch it from the `notebooks` folder with `marimo edit Flyte_Pipeline_with_marimo.py`.
     """)
@@ -158,9 +158,9 @@ def _():
 
     mo.vstack([
         mo.md("""## Run the Pipeline
-    The pipeline runs locally with two model families when the notebook opens (about a minute). Then add **Gradient-Boosted Trees** and run it again: Flyte only runs the new tasks and reuses everything else from its cache.
+    The pipeline runs locally with two model families when the notebook opens (about a minute). Then add **Gradient-Boosted Trees** and run it again: [Flyte](https://github.com/flyteorg/flyte) only runs the new tasks and reuses everything else from its cache.
 
-    To run on the Flyte devbox instead, start it first (see the README) and create `config.yaml` in this folder with `flyte create config --devbox`."""),
+    To run on the [Flyte](https://github.com/flyteorg/flyte) devbox instead, start it first (see the README) and create `config.yaml` in this folder with `flyte create config --devbox`."""),
         run_form,
     ])
     return get_history, run_form, set_history
@@ -234,11 +234,11 @@ def _(get_history, output, ran_where, raw, run, run_seconds, statuses):
     _link = f" Follow the run in the [Flyte UI]({run.url})." if ran_where != "locally" else ""
 
     mo.vstack([
-        mo.hstack([mo.image(FLYTE_LOGO, width=44, alt="Flyte logo"), mo.md("## The Flyte Pipeline, Live")],
+        mo.hstack([mo.image(FLYTE_LOGO, width=44, alt="Flyte logo"), mo.md("## The [Flyte](https://github.com/flyteorg/flyte) Pipeline, Live")],
                   justify="start", align="center", gap=0.75),
-        mo.md(f"Each box is a Flyte task, drawn from the run that just finished.{_link} "
-              "**Green** tasks ran (their arrows move), **gray dashed** tasks were reused from Flyte's cache, "
-              "an **orange ✗ arrow** is an attempt that failed and Flyte retried, "
+        mo.md(f"Each box is a [Flyte](https://github.com/flyteorg/flyte) task, drawn from the run that just finished.{_link} "
+              "**Green** tasks ran (their arrows move), **gray dashed** tasks were reused from [Flyte](https://github.com/flyteorg/flyte)'s cache, "
+              "an **orange ✗ arrow** is an attempt that failed and [Flyte](https://github.com/flyteorg/flyte) retried, "
               "and the **gold** box is the best model. Earlier runs stay in their own tabs."),
         _stats,
         _tabs,
@@ -250,9 +250,9 @@ def _(get_history, output, ran_where, raw, run, run_seconds, statuses):
 def _():
     _tasks = [fp.engineer_features, fp.split_data, fp.evaluate_model, fp.score_best_model, fp.fraud_pipeline]
     mo.vstack([
-        mo.hstack([mo.image(FLYTE_LOGO, width=44, alt="Flyte logo"), mo.md("## Flyte Tasks")],
+        mo.hstack([mo.image(FLYTE_LOGO, width=44, alt="Flyte logo"), mo.md("## [Flyte](https://github.com/flyteorg/flyte) Tasks")],
                   justify="start", align="center", gap=0.75),
-        mo.md("""A Flyte task is an ordinary Python function with an `@env.task` decorator. Options on the decorator add Flyte features: `cache` reuses results when the inputs haven't changed, and `retries` reruns a task that fails. The `TaskEnvironment` says which packages and resources each task gets on a cluster (locally these settings are ignored). Open a task to read its code."""),
+        mo.md("""A [Flyte](https://github.com/flyteorg/flyte) task is an ordinary Python function with an `@env.task` decorator. Options on the decorator add [Flyte](https://github.com/flyteorg/flyte) features: `cache` reuses results when the inputs haven't changed, and `retries` reruns a task that fails. The `TaskEnvironment` says which packages and resources each task gets on a cluster (locally these settings are ignored). Open a task to read its code."""),
         mo.accordion({f"`{t.func.__name__}`": mo.ui.code_editor(inspect.getsource(t.func), language="python", disabled=True)
                       for t in _tasks}),
     ])
@@ -278,7 +278,7 @@ def _():
 
     mo.vstack([
         mo.md("""## Turning Scores into Decisions
-    Flyte did the heavy lifting once. Everything below reruns instantly on the scores it returned.
+    [Flyte](https://github.com/flyteorg/flyte) did the heavy lifting once. Everything below reruns instantly on the scores it returned.
 
     A missed fraud costs its **transaction amount** (plus any extra cost you add, such as a chargeback fee), and every review costs analyst time. Move the sliders: the lowest-cost threshold is chosen on the **validation** set, and the results are reported on the **test** set."""),
         mo.hstack([cost_review, fee], justify="start", gap=2),
@@ -348,11 +348,11 @@ def _(best_threshold, test, threshold, total_cost):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## Why Flyte and marimo Together
+    ## Why [Flyte](https://github.com/flyteorg/flyte) and [marimo](https://github.com/marimo-team/marimo) Together
 
     * **Same code, laptop or cluster.** `fraud_pipeline.py` is plain Python. `flyte.init()` runs it locally, and `flyte.init_from_config()` runs each task in its own container on a cluster, with inputs, outputs, and logs recorded for every task.
     * **Failures don't restart the pipeline.** A task that loses its worker is retried on its own (`retries=2`), and every task that already finished stays cached.
-    * **Expensive work once, decisions instantly.** Flyte runs the model comparison. marimo reruns only the cells that depend on a slider, so exploring thresholds and costs never retrains a model.
+    * **Expensive work once, decisions instantly.** [Flyte](https://github.com/flyteorg/flyte) runs the model comparison. [marimo](https://github.com/marimo-team/marimo) reruns only the cells that depend on a slider, so exploring thresholds and costs never retrains a model.
     * **Shareable.** The notebook is a `.py` file that diffs cleanly in git, and `marimo run Flyte_Pipeline_with_marimo.py` serves it as an app for stakeholders who just want the sliders and the table.
     """)
     return

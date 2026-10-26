@@ -8,9 +8,9 @@ Machine learning is most useful when it helps practitioners move from data to be
 
 Rather than focusing only on algorithm definitions, this session emphasizes the choices practitioners make when building real machine learning systems. We will cover core supervised learning concepts, feature engineering, model selection, validation strategy, and common failure modes such as target leakage, overfitting, misleading accuracy, and poorly chosen thresholds. Anomaly detection will be used as a recurring application to illustrate challenges such as limited labels, rare events, and false-positive versus false-negative tradeoffs.
 
-Python demonstrations will use common open-source tools such as Pandas, NumPy, Matplotlib, and scikit-learn in Jupyter notebooks, with [marimo](https://github.com/marimo-team/marimo), a reactive Python notebook, for select demos. The workshop will cover practical model evaluation with confusion matrices, precision, recall, F1, ROC-AUC, and PR-AUC, with attention to how metric choice depends on the cost of different errors. We will also use [Flyte 2](https://github.com/flyteorg/flyte), an open-source orchestration framework, to run a scikit-learn hyperparameter search as parallel tasks that scale from a laptop to a cluster, and to turn the fraud detection workflow into a pipeline in marimo that reruns only the steps that changed.
+Python demonstrations will use common open-source tools such as Pandas, NumPy, Matplotlib, and scikit-learn in Jupyter notebooks, with [marimo](https://github.com/marimo-team/marimo), a reactive Python notebook, for select demos. The workshop will cover practical model evaluation with confusion matrices, precision, recall, F1, ROC-AUC, and PR-AUC, with attention to how metric choice depends on the cost of different errors. We will also use [Flyte 2](https://github.com/flyteorg/flyte), an open-source orchestration framework, to run a scikit-learn hyperparameter search as parallel tasks that scale from a laptop to a cluster, and to turn the fraud detection workflow into a pipeline in [marimo](https://github.com/marimo-team/marimo) that reruns only the steps that changed.
 
-By the end of the session, attendees will understand how to frame applied machine learning problems, prepare features for tabular models, compare model families, evaluate models beyond accuracy, scale model training with Flyte 2, and communicate model results in a way that supports real-world decisions.
+By the end of the session, attendees will understand how to frame applied machine learning problems, prepare features for tabular models, compare model families, evaluate models beyond accuracy, scale model training with [Flyte 2](https://github.com/flyteorg/flyte), and communicate model results in a way that supports real-world decisions.
 
 ![What is machine learning: supervised learning learns a known target from features; unsupervised learning finds structure in features alone](notebooks/images/machine_learning_overview.png)
 
@@ -24,7 +24,7 @@ What we will cover:
 * **From scores to decisions:** thresholds, costs, review capacity, and calibration.
 * **Scaling up:** hyperparameter search with more cores and [Flyte 2](https://github.com/flyteorg/flyte), and a fraud pipeline in [marimo](https://github.com/marimo-team/marimo) that reruns only what changed.
 
-<p><b>0. <a href="#installation">Setup</a>:</b> install Python and the workshop packages, including Flyte 2 and marimo, so everyone can run the same code.</p>
+<p><b>0. <a href="#installation">Setup</a>:</b> install Python and the workshop packages, including <a href="https://github.com/flyteorg/flyte">Flyte 2</a> and <a href="https://github.com/marimo-team/marimo">marimo</a>, so everyone can run the same code.</p>
 
 <table>
   <tr>
@@ -91,7 +91,7 @@ What we will cover:
     <td width="50%" valign="top">
       <a href="./notebooks/Flyte_Pipeline_with_marimo.py"><img src="./notebooks/images/readme/flyte_pipeline_run2.png" width="420" alt="The fraud detection pipeline with Flyte 2 and marimo"></a><br>
       <b>11. <a href="./notebooks/Flyte_Pipeline_with_marimo.py">The fraud detection pipeline with Flyte 2 and marimo</a></b><br><sub><a href="#running-the-marimo-notebook">How to run it</a></sub>
-      <p>The whole fraud workflow as Flyte tasks. Flyte reuses finished tasks from its cache, runs the model comparison in parallel, and retries a task that fails instead of restarting the pipeline.</p>
+      <p>The whole fraud workflow as <a href="https://github.com/flyteorg/flyte">Flyte</a> tasks. <a href="https://github.com/flyteorg/flyte">Flyte</a> reuses finished tasks from its cache, runs the model comparison in parallel, and retries a task that fails instead of restarting the pipeline.</p>
     </td>
   </tr>
 </table>
@@ -165,7 +165,7 @@ The packages (scikit-learn, Jupyter, [Flyte 2](https://github.com/flyteorg/flyte
 
 ### Option 3: Google Colab (nothing to install)
 
-If you can't install software on your computer, open a notebook in [Google Colab](https://colab.research.google.com/) from GitHub (File > Open notebook > GitHub, then paste this repo's URL). scikit-learn, pandas, and matplotlib are already installed. Run this in the first cell so the notebook can find its data files and the Flyte packages:
+If you can't install software on your computer, open a notebook in [Google Colab](https://colab.research.google.com/) from GitHub (File > Open notebook > GitHub, then paste this repo's URL). scikit-learn, pandas, and matplotlib are already installed. Run this in the first cell so the notebook can find its data files and the [Flyte](https://github.com/flyteorg/flyte) packages:
 
 ```
 !git clone https://github.com/mGalarnyk/MLModelsScikit-Learn.git
@@ -173,7 +173,7 @@ If you can't install software on your computer, open a notebook in [Google Colab
 !pip install flyte pyarrow
 ```
 
-The marimo notebook (`Flyte_Pipeline_with_marimo.py`) and the optional cluster runs need a local install (Option 1 or 2).
+The [marimo](https://github.com/marimo-team/marimo) notebook (`Flyte_Pipeline_with_marimo.py`) and the optional cluster runs need a local install (Option 1 or 2).
 
 
 ## Running the Notebooks
@@ -182,9 +182,9 @@ The marimo notebook (`Flyte_Pipeline_with_marimo.py`) and the optional cluster r
 
 The fraud detection notebooks use the real [Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) dataset (284,807 transactions, 492 frauds). They download it (about 150 MB) to `notebooks/data/creditcard.csv` the first time they run, so the first run needs an internet connection.
 
-### Running the marimo notebook
+### Running the [marimo](https://github.com/marimo-team/marimo) notebook
 
-`Flyte_Pipeline_with_marimo.py` is a marimo notebook, not a Jupyter notebook. Start it from the `notebooks` folder:
+`Flyte_Pipeline_with_marimo.py` is a [marimo](https://github.com/marimo-team/marimo) notebook, not a Jupyter notebook. Start it from the `notebooks` folder:
 
 ```
 cd notebooks
@@ -192,22 +192,22 @@ marimo edit Flyte_Pipeline_with_marimo.py   # notebook view, with code
 marimo run Flyte_Pipeline_with_marimo.py    # app view, code hidden
 ```
 
-A browser tab opens, and the pipeline runs once with Logistic Regression and Random Forest (about 30 seconds). Then add Gradient-Boosted Trees and click "Run pipeline with Flyte" again. The diagram is drawn from Flyte's own run records:
+A browser tab opens, and the pipeline runs once with Logistic Regression and Random Forest (about 30 seconds). Then add Gradient-Boosted Trees and click "Run pipeline with Flyte" again. The diagram is drawn from [Flyte](https://github.com/flyteorg/flyte)'s own run records:
 
-* **Gray dashed** tasks were reused from Flyte's cache, so only the new model tasks run.
-* An **orange ✗ arrow** is a failed attempt that Flyte retried. The "Simulate losing a worker" box makes the last model task fail its first attempt, like a cloud machine being reclaimed, so you can watch the retry. The retry itself is real Flyte behavior (`retries=2` on the task).
+* **Gray dashed** tasks were reused from [Flyte](https://github.com/flyteorg/flyte)'s cache, so only the new model tasks run.
+* An **orange ✗ arrow** is a failed attempt that [Flyte](https://github.com/flyteorg/flyte) retried. The "Simulate losing a worker" box makes the last model task fail its first attempt, like a cloud machine being reclaimed, so you can watch the retry. The retry itself is real [Flyte](https://github.com/flyteorg/flyte) behavior (`retries=2` on the task).
 
 ![The second run in the marimo app: cached Flyte tasks are gray, the two new Gradient-Boosted Trees tasks ran, and one was retried after a failed attempt](notebooks/images/flyte_pipeline_run2.png)
 
 To start fresh, delete the cache with `rm -rf ~/.flyte/local-cache`.
 
-### Optional: Run Flyte on a Local Cluster
+### Optional: Run [Flyte](https://github.com/flyteorg/flyte) on a Local Cluster
 
-Flyte 2 runs locally without Docker, so every notebook works without it. Docker is only needed to run the same code on a local Flyte cluster:
+[Flyte 2](https://github.com/flyteorg/flyte) runs locally without Docker, so every notebook works without it. Docker is only needed to run the same code on a local [Flyte](https://github.com/flyteorg/flyte) cluster:
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start it. Docker is not in `requirements.txt` or `environment.yml`, so install it separately.
-2. Start the cluster: `flyte start devbox --apple-silicon` (drop `--apple-silicon` on other machines). The Flyte UI is at http://localhost:30080/v2.
-3. In the `notebooks` folder, run `flyte create config --devbox`, then set `RUN_ON_CLUSTER = True` in `Hyperparameter_Tuning.ipynb` or pick "Flyte devbox" in the marimo notebook.
+2. Start the cluster: `flyte start devbox --apple-silicon` (drop `--apple-silicon` on other machines). The [Flyte](https://github.com/flyteorg/flyte) UI is at http://localhost:30080/v2.
+3. In the `notebooks` folder, run `flyte create config --devbox`, then set `RUN_ON_CLUSTER = True` in `Hyperparameter_Tuning.ipynb` or pick "Flyte devbox" in the [marimo](https://github.com/marimo-team/marimo) notebook.
 4. Stop the cluster afterwards with `flyte stop devbox`.
 
 ## Relevant Links
