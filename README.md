@@ -29,60 +29,60 @@ What we will cover:
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="./notebooks/How_to_Format_Data.ipynb"><img src="./notebooks/images/featuresMatrixTargetVector.png" width="420" alt="How to format data for scikit-learn"></a><br>
+      <a href="./notebooks/How_to_Format_Data.ipynb"><img src="./notebooks/images/readme/featuresMatrixTargetVector.png" width="420" alt="How to format data for scikit-learn"></a><br>
       <b>1. <a href="./notebooks/How_to_Format_Data.ipynb">How to format data for scikit-learn</a></b>
       <p>Every scikit-learn model expects a features matrix and a target vector. Getting this right first avoids most beginner errors.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="./notebooks/Linear_Regression.ipynb"><img src="./notebooks/images/linearregression.png" width="420" alt="Linear regression"></a><br>
+      <a href="./notebooks/Linear_Regression.ipynb"><img src="./notebooks/images/readme/linearregression.png" width="420" alt="Linear regression"></a><br>
       <b>2. <a href="./notebooks/Linear_Regression.ipynb">Linear regression</a></b>
       <p>The simplest model. It introduces the fit-and-predict pattern that every later model uses.</p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <a href="./notebooks/TrainTestSplitScikitLearn.ipynb"><img src="./notebooks/images/TrainTestProcedure.png" width="420" alt="Train test split"></a><br>
+      <a href="./notebooks/TrainTestSplitScikitLearn.ipynb"><img src="./notebooks/images/readme/TrainTestProcedure.png" width="420" alt="Train test split"></a><br>
       <b>3. <a href="./notebooks/TrainTestSplitScikitLearn.ipynb">Train test split</a></b>
       <p>A model is only useful if it works on data it hasn't seen. This is how you check, and it shows overfitting and the bias-variance tradeoff.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="./notebooks/Decision_Trees.ipynb"><img src="./notebooks/images/decisionTreeExample.png" width="420" alt="Decision trees for classification"></a><br>
+      <a href="./notebooks/Decision_Trees.ipynb"><img src="./notebooks/images/readme/decisionTreeExample.png" width="420" alt="Decision trees for classification"></a><br>
       <b>4. <a href="./notebooks/Decision_Trees.ipynb">Decision trees for classification</a></b>
       <p>An interpretable classifier. Tuning <code>max_depth</code> shows how model complexity changes results.</p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb"><img src="./notebooks/images/plottreefncn.png" width="420" alt="Visualize decision trees"></a><br>
+      <a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb"><img src="./notebooks/images/readme/plottreefncn.png" width="420" alt="Visualize decision trees"></a><br>
       <b>5. <a href="./notebooks/How_to_Visualize_Decision_Trees.ipynb">Visualize decision trees</a></b>
       <p>Seeing the splits lets you check what the model learned and explain it to stakeholders.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="./notebooks/RandomForestUsingPython.ipynb"><img src="./notebooks/images/Bagging.png" width="420" alt="Random forests"></a><br>
+      <a href="./notebooks/RandomForestUsingPython.ipynb"><img src="./notebooks/images/readme/Bagging.png" width="420" alt="Random forests"></a><br>
       <b>6. <a href="./notebooks/RandomForestUsingPython.ipynb">Random forests</a></b>
       <p>Many trees together usually beat one tree on tabular data. Also covers feature importance and grid search.</p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <a href="./notebooks/Logistic_Regression.ipynb"><img src="./notebooks/images/logistic_regression_predictions.png" width="420" alt="Logistic regression"></a><br>
+      <a href="./notebooks/Logistic_Regression.ipynb"><img src="./notebooks/images/readme/logistic_regression_predictions.png" width="420" alt="Logistic regression"></a><br>
       <b>7. <a href="./notebooks/Logistic_Regression.ipynb">Logistic regression</a></b><br><sub><a href="./notebooks/Logistic_Regression_for_Multiclass.ipynb">Multiclass</a> · <a href="https://medium.com/@GalarnykMichael/how-to-speed-up-scikit-learn-model-training-aaf17e2d1e1">Speeding up training</a></sub>
       <p>A classifier that outputs probabilities, which the fraud notebooks later turn into decisions. The multiclass notebook handles more than two classes.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="./notebooks/Anomaly_Detection_Evaluation.ipynb"><img src="./notebooks/images/fraud_confusion_matrix.png" width="420" alt="Anomaly detection: evaluating models beyond accuracy"></a><br>
+      <a href="./notebooks/Anomaly_Detection_Evaluation.ipynb"><img src="./notebooks/images/readme/fraud_confusion_matrix.png" width="420" alt="Anomaly detection: evaluating models beyond accuracy"></a><br>
       <b>8. <a href="./notebooks/Anomaly_Detection_Evaluation.ipynb">Anomaly detection: evaluating models beyond accuracy</a></b><br><sub>Downloads the <a href="#dataset">dataset</a> on first run</sub>
       <p>Fraud is rare, so a model that never flags anything is 99.8% accurate. Covers leakage, comparing model families, and metrics like PR-AUC that show real differences.</p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <a href="./notebooks/Turning_Scores_into_Decisions.ipynb"><img src="./notebooks/images/cost_vs_threshold.png" width="420" alt="Turning model scores into decisions"></a><br>
+      <a href="./notebooks/Turning_Scores_into_Decisions.ipynb"><img src="./notebooks/images/readme/cost_vs_threshold.png" width="420" alt="Turning model scores into decisions"></a><br>
       <b>9. <a href="./notebooks/Turning_Scores_into_Decisions.ipynb">Turning model scores into decisions</a></b>
       <p>A model gives a score, but the business needs an action. Covers choosing a threshold from costs, review capacity, and calibration.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="./notebooks/Hyperparameter_Tuning.ipynb"><img src="./notebooks/images/hyperparameter_timing_full_dataset.png" width="420" alt="Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2"></a><br>
+      <a href="./notebooks/Hyperparameter_Tuning.ipynb"><img src="./notebooks/images/readme/hyperparameter_timing_full_dataset.png" width="420" alt="Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2"></a><br>
       <b>10. <a href="./notebooks/Hyperparameter_Tuning.ipynb">Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2</a></b><br><sub><a href="#optional-run-flyte-on-a-local-cluster">Optional cluster run</a></sub>
       <p>Tuning is where most compute time goes. On the full fraud dataset, a grid search drops from about 30 minutes on one core to under 3 minutes on 16.</p>
     </td>
