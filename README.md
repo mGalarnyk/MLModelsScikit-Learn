@@ -35,7 +35,7 @@ What we will cover:
   <tr>
     <td>1</td>
     <td>Setup: install Python and the workshop packages, including Flyte 2 and marimo</td>
-    <td><a href="./Setup.md">Setup</a></td>
+    <td><a href="#installation">Installation</a></td>
     <td>So everyone can run the same code during the session.</td>
   </tr>
   <tr>
@@ -175,7 +175,17 @@ The packages (scikit-learn, Jupyter, Flyte 2, marimo, and the rest) are listed i
 
    Run `conda activate sklearn-workshop` every time you open a new terminal. Leave the environment with `conda deactivate`.
 
-See [Setup](./Setup.md) for Google Colab.
+### Option 3: Google Colab (nothing to install)
+
+If you can't install software on your computer, open a notebook in [Google Colab](https://colab.research.google.com/) from GitHub (File > Open notebook > GitHub, then paste this repo's URL). scikit-learn, pandas, and matplotlib are already installed. Run this in the first cell so the notebook can find its data files and the Flyte packages:
+
+```
+!git clone https://github.com/mGalarnyk/MLModelsScikit-Learn.git
+%cd MLModelsScikit-Learn/notebooks
+!pip install flyte pyarrow
+```
+
+The marimo notebook (`Flyte_Pipeline_with_marimo.py`) and the optional cluster runs need a local install (Option 1 or 2).
 
 
 ## Running the Notebooks
