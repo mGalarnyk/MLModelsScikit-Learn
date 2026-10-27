@@ -82,9 +82,9 @@ What we will cover:
       <p>A model gives a score, but the business needs an action. Covers choosing a threshold from costs, review capacity, and calibration.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="./notebooks/Hyperparameter_Tuning.ipynb"><img src="./notebooks/images/readme/hyperparameter_timing_full_dataset.png" width="420" alt="Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2"></a><br>
+      <a href="./notebooks/Hyperparameter_Tuning.ipynb"><img src="./notebooks/images/readme/compute_options.png" width="420" alt="Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2"></a><br>
       <b>10. <a href="./notebooks/Hyperparameter_Tuning.ipynb">Does additional compute always help? Hyperparameter tuning with more cores and Flyte 2</a></b><br><sub><a href="#optional-run-flyte-on-a-local-cluster">Optional cluster run</a></sub>
-      <p>Tuning is where most compute time goes. On the full fraud dataset, a grid search drops from about 30 minutes on one core to under 3 minutes on 16.</p>
+      <p>Tuning is where most compute time goes. On the full fraud dataset, a grid search drops from about 30 minutes on one core to under 3 minutes on 16. <a href="https://github.com/flyteorg/flyte">Flyte</a> adds what <code>n_jobs</code> can't: widen the search and only the new candidates run, a failed candidate is retried on its own, and the same code runs on a cluster.</p>
     </td>
   </tr>
   <tr>
