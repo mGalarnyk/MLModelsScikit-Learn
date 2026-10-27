@@ -100,7 +100,18 @@ What we will cover:
 
 The packages (scikit-learn, Jupyter, [Flyte 2](https://github.com/flyteorg/flyte), [marimo](https://github.com/marimo-team/marimo), and the rest) are listed in `requirements.txt` for uv and in `environment.yml` for conda. Use either option below. Docker is not needed for the notebooks. It is only used for the [optional cluster runs](#optional-run-flyte-on-a-local-cluster) and is installed separately.
 
+First, get a copy of this repo and go into its folder. Every command below runs from this folder:
+
+```
+git clone https://github.com/mGalarnyk/MLModelsScikit-Learn.git
+cd MLModelsScikit-Learn
+```
+
+No git? Click the green **Code** button on GitHub, choose **Download ZIP**, unzip it, and `cd` into the unzipped folder.
+
 ### Option 1: uv (recommended)
+
+[uv](https://github.com/astral-sh/uv) is a fast Python package and project manager written in Rust. It installs Python itself and creates the environment for you, so you don't need Python installed first.
 
 1. Install uv:
 
@@ -133,7 +144,19 @@ The packages (scikit-learn, Jupyter, [Flyte 2](https://github.com/flyteorg/flyte
    jupyter lab
    ```
 
-   Run the activate command again from the repo folder every time you open a new terminal. Leave the environment with `deactivate`.
+   Every time you open a new terminal, go to the repo folder and activate again before running `jupyter lab` or `marimo`:
+
+   ```
+   # Mac and Linux
+   cd path/to/MLModelsScikit-Learn
+   source .venv/bin/activate
+
+   # Windows
+   cd path\to\MLModelsScikit-Learn
+   .venv\Scripts\activate
+   ```
+
+   Replace `path/to` with wherever you cloned the repo (for example `cd ~/Desktop/MLModelsScikit-Learn`). Your prompt starts with `(.venv)` when the environment is active. Leave it with `deactivate`.
 
 ### Option 2: conda
 
@@ -161,7 +184,14 @@ The packages (scikit-learn, Jupyter, [Flyte 2](https://github.com/flyteorg/flyte
    jupyter lab
    ```
 
-   Run `conda activate sklearn-workshop` every time you open a new terminal. Leave the environment with `conda deactivate`.
+   Every time you open a new terminal, go to the repo folder and activate again:
+
+   ```
+   cd path/to/MLModelsScikit-Learn
+   conda activate sklearn-workshop
+   ```
+
+   Your prompt starts with `(sklearn-workshop)` when the environment is active. Leave it with `conda deactivate`.
 
 ### Option 3: Google Colab (nothing to install)
 
